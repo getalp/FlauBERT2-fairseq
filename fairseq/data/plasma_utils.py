@@ -39,6 +39,7 @@ class PlasmaArray:
         self._server = None
         self._server_tmp = None
         self._plasma = None
+        self.start_server()
 
     @property
     def plasma(self):

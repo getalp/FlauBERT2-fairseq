@@ -4,7 +4,7 @@
 # LICENSE file in the root directory of this source tree.
 
 import math
-
+import time
 import torch
 import torch.nn.functional as F
 from fairseq import metrics, modules, utils
@@ -29,7 +29,7 @@ class MaskedLmLoss(FairseqCriterion):
         2) the sample size, which is used as the denominator for the gradient
         3) logging outputs to display while training
         """
-        masked_tokens = sample["target"].ne(self.padding_idx)
+        masked_tokens = sample["lm_target"].ne(self.padding_idx)
         sample_size = masked_tokens.int().sum()
 
         # Rare: when all tokens are masked, project all tokens.
@@ -50,6 +50,7 @@ class MaskedLmLoss(FairseqCriterion):
 
         logits = model(**sample["net_input"], masked_tokens=masked_tokens)[0]
         targets = model.get_targets(sample, [logits])
+
         if masked_tokens is not None:
             targets = targets[masked_tokens]
 
