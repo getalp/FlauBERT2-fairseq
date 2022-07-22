@@ -429,10 +429,10 @@ def fft_layers_parse(use_fft, fft_layers, attention_layers, num_encoder_layers):
 
 @register_model_architecture("flaubert", "flaubert")
 def base_architecture(args):
-    args.encoder_layers = getattr(args, "encoder_layers", 24)
-    args.encoder_embed_dim = getattr(args, "encoder_embed_dim", 1024)
-    args.encoder_ffn_embed_dim = getattr(args, "encoder_ffn_embed_dim", 4096)
-    args.encoder_attention_heads = getattr(args, "encoder_attention_heads", 16)
+    args.encoder_layers = getattr(args, "encoder_layers", 12)
+    args.encoder_embed_dim = getattr(args, "encoder_embed_dim", 768)
+    args.encoder_ffn_embed_dim = getattr(args, "encoder_ffn_embed_dim", 3072)
+    args.encoder_attention_heads = getattr(args, "encoder_attention_heads", 12)
 
     args.dropout = getattr(args, "dropout", 0.1)
     args.attention_dropout = getattr(args, "attention_dropout", 0.1)
@@ -480,5 +480,24 @@ def base_architecture(args):
         args.fft_layers = fft_layers_parse(args.use_fft, args.fft_layers, args.attention_layers, args.encoder_layers)
 
 
+@register_model_architecture("flaubert", "flaubert_base")
+def flaubert_base_architecture(args):
+    base_architecture(args)
 
 
+@register_model_architecture("flaubert", "flaubert_small")
+def flaubert_small_architecture(args):
+        args.encoder_layers = getattr(args, "encoder_layers", 6)
+        args.encoder_embed_dim = getattr(args, "encoder_embed_dim", 512)
+        args.encoder_ffn_embed_dim = getattr(args, "encoder_ffn_embed_dim", 2048)
+        args.encoder_attention_heads = getattr(args, "encoder_attention_heads", 8)
+        base_architecture(args)
+
+
+@register_model_architecture("flaubert", "flaubert_large")
+def flaubert_large_architecture(args):
+        args.encoder_layers = getattr(args, "encoder_layers", 24)
+        args.encoder_embed_dim = getattr(args, "encoder_embed_dim", 1024)
+        args.encoder_ffn_embed_dim = getattr(args, "encoder_ffn_embed_dim", 4096)
+        args.encoder_attention_heads = getattr(args, "encoder_attention_heads", 16)
+        base_architecture(args)
