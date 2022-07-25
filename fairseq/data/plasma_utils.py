@@ -3,7 +3,6 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-
 import hashlib
 import json
 import subprocess
@@ -39,6 +38,7 @@ class PlasmaArray:
         self._server = None
         self._server_tmp = None
         self._plasma = None
+        self.start_server()
 
     @property
     def plasma(self):
